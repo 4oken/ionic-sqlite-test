@@ -62,13 +62,24 @@ export class SqlStorage {
         });
     }
 
+    getAll(): Promise<any>{
+        return this.query(`select key, value from kv`)
+        .then(data => {
+            var array = new Array<string>()
+            for (var i = 0; i < data.res.rows.length; i++) {
+                array.push(data.res.rows.item(i).value);
+            }
+            return array
+        })
+    }
+
     /** SET the value in the database for the given key. */
     set(key: string, value: string): Promise<any> {
         return this.query('insert into kv(key, value) values (?, ?)', [key, value]);
     }
 
     /** REMOVE the value in the database for the given key. */
-    remove(key: string): Promise<any> {
-        return this.query('delete from kv where key = ?', [key]);
+    remove(): Promise<any> {
+        return this.query('delete from kv');
     }
 }

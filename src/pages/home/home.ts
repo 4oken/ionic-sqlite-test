@@ -9,19 +9,35 @@ import { SqlStorage } from '../../services/sqlite'
 export class HomePage {
 
   constructor(public navCtrl: NavController, private storage: SqlStorage) {
-    this.value = "hoge"
+    this.values = []
   }
 
   value: string
+  values: string[]
+  pushKey: string
+  pushValue: string
 
   click(){
     try{
-    this.value = "joke"
-    this.storage.remove("test")
-    this.storage.set("test", "test2")
-    this.storage.get("test").then((x) => this.value = x)
+      this.storage.getAll()
+        .then((data) => this.values = data)
+        .then(() => this.value = this.values[0])
     }catch(e){
       alert(e)
     }
+  }
+  
+  push(){
+    this.storage.set(this.pushKey, this.pushValue)
+    .then(() => this.click())
+    .then(() => {
+      this.pushKey = ""
+      this.pushValue= ""
+    })
+  }
+
+  delete(){
+    this.storage.remove()
+      .then(() => this.values = [])
   }
 }

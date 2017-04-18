@@ -7,10 +7,13 @@
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-select [(ngModel)]="value">
+    <ion-option *ngFor="let val of values">{{val}}</ion-option>
+  </ion-select>
   <button ion-button (click)='click()'>test</button>
-  {{value}}
+
+  <ion-input placeholder="hoge" [(ngModel)]="pushKey" value=""></ion-input>
+  <ion-input placeholder="hoge" [(ngModel)]="pushValue" value=""></ion-input>
+  <button ion-button (click)="push()">push</button>
+  <button ion-button (click)="delete()">delete</button>
 </ion-content>
